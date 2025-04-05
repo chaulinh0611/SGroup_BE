@@ -1,0 +1,25 @@
+https://dev.to/farhatsharifh/path-vs-query-parameters-choosing-the-right-approach-for-api-requests-2lah?fbclid=IwY2xjawJYxAlleHRuA2FlbQIxMAABHTtnRcB3MgpGO871UHPu-LwnJNfJvQvaxFz1v06rcFtngnzIukbBza7Dkw_aem_2dPAK5Rj-OUgy3BhGnvOgg
+// tạo 1 mảng user lấy ra tất cả các user trong mảng
+// lấy ra 1 user có id nào đó trong mảng
+// 
+1. Query param:
+- là các cặp key và value cách nhau bởi dấu = trước nó là 
+- Sau dấu ? ở url
+- tách nhiều giá trị bằng &
+- thêm thông tin để lọc, sắp xếp
+- có thể thêm, bớt và thay đổi
+- giá trị tham số không thay đổi tài nguyên chỉ thay đổi cách hiển thị 
+- có thể làm url dài và khó hiểu khhi có quá nhiều tham số
+- không bắt buộc, có thể bỏ qua
+- dữ liệu không liên quan có thì dữ liệu cũng vậy
+2. Path param:
+- Là 1 phần của url
+- tách nhiều giá trị bằng /
+- chỉ định tài nguyên cụ thể
+- cố định
+- giá trị tham số thay đổi trực tiếp tài nguyên
+- url dễ đọc hơn 
+- Bắt buộc
+
+- fs module: https://www.w3schools.com/nodejs/nodejs_filesystem.asp
+import fs 
