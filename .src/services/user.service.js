@@ -1,65 +1,65 @@
 import { getDB } from "../config/db.config.js"
-
+import { ObjectId } from "mongodb";
+import  UserModel from "../model/user.model.js";
 class UserService {
-    async createUser(name) {
+    async createUser(name, email, password) {
         try {
-            const user = await getDB().collection("users").insertOne({
-                name,
-                _id: await getDB().collection("users").countDocuments() + 1
-            })
-            return user.insertedId
+            const user = await UserModel.insertOne({name, email, password});
+            return user.insertedId;
         } catch (err) {
-            throw err
+            throw err;
         }
     }
 
     async getAllUsers() {
         try {
-            const users = await getDB().collection("users").find().toArray()
-            return users
+            const users = await UserModel.findAll();
+            return users;
         } catch (err) {
-            throw err
-        }
-    }
-    
-    async getUser(userId){
-        try{
-            const user = await getDB().collection("users").findOne({_id: Number(userId)})
-            return user
-        }catch(err){
-            throw err
+            throw err;
         }
     }
 
-    async updateUser(userId, userName){
-        try{
-            const user = await getDB().collection("users").updateOne(
-                { _id: Number(userId) },                 
-                { $set: { name: userName } }              
-            )
-            if(user.matchedCount === 0){
-                return null
-            }
-            const userUpdated = getDB().collection("users").findOne({_id: Number(userId)})
-            return userUpdated
-        }catch(err){
-            throw err
+    async getUser(userId) {
+        try {
+            const user = await  UserModel.findById(userId)
+            return user;
+        } catch (err) {
+            throw err;
         }
     }
 
-    async deleteUser(userId){
-        try{
-            const user = await getDB().collection("users").deleteOne({
-                _id: Number(userId)
-            })
-            if(user.deletedCount === 0){
-                return null
+    async updateUser(userId, userName) {
+        try {
+            const user = await UserModel.updateById(userId, { name: userName });
+            if (user.matchedCount === 0) {
+                return null;
             }
-            const users = await getDB().collection("users").find().toArray()
-            return users
-        }catch(err){
-            throw err
+            const userUpdated = await UserModel.findById(userId);
+            return userUpdated;
+        } catch (err) {
+            throw err;
         }
+    }
+
+    async deleteUser(userId) {
+        try {
+            const user = await UserModel.deleteById(userId)
+            if (user.deletedCount === 0) {
+                return null;
+            }
+            const users = await UserModel.findAll();
+            return users;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async isEmailExisted(email) {
+        const user = await UserModel.findByEmail(email);
+        return !!user;
     }
 }
-export default new UserService()
+
+export default new UserService();
+
