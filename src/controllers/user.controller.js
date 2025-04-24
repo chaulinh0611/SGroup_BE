@@ -3,7 +3,7 @@ import UserService from "../services/user.service.js"
 class userController {
     async createUser(req, res, next) {
         try {
-            const {name} = req.body
+            const { name } = req.body
             const userId = await UserService.createUser(name)
             res.status(200).json({
                 success: true,
@@ -25,64 +25,64 @@ class userController {
             next(err)
         }
     }
-    async getUser(req, res, next){
-        try{
+
+    async getUser(req, res, next) {
+        try {
             const userId = await req.params.id
             const user = await UserService.getUser(userId)
-            if(!user){
+            if (!user) {
                 return res.status(404).json({
                     success: false,
-                    message: "Can't find user"
+                    message: "Can't find user",
                 })
             }
             res.status(200).json({
                 success: true,
                 data: user,
             })
-        }catch(err){
+        } catch (err) {
             next(err)
         }
     }
 
-    async updateUser(req, res, next){
-        try{
+    async updateUser(req, res, next) {
+        try {
             const userId = req.params.id
             const userName = req.body.name
             const user = await UserService.updateUser(userId, userName)
-            if(!user){
+            if (!user) {
                 return res.status(404).json({
                     success: false,
-                    message: "Can't find user"
+                    message: "Can't find user",
                 })
             }
             res.status(200).json({
                 success: true,
                 data: user,
             })
-        }catch(err){
+        } catch (err) {
             next(err)
         }
     }
 
-    async deleteUser(req, res, next){
-        try{
+    async deleteUser(req, res, next) {
+        try {
             const userId = req.params.id
             const users = await UserService.deleteUser(userId)
-            if(!users){
+            if (!users) {
                 return res.status(404).json({
                     success: false,
-                    message: "Can't find user"
+                    message: "Can't find user",
                 })
             }
             res.status(200).json({
                 success: true,
                 data: users,
             })
-        }catch(err){
+        } catch (err) {
             next(err)
         }
     }
-    
 }
 
 export default new userController()
