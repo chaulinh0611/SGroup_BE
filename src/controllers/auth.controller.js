@@ -1,10 +1,14 @@
 import authService from "../services/auth.service.js"
+import hashProvide from "../providers/hash.provide.js";
 
 class AuthController {
     async register(req, res, next) {
         try {
             const { name, email, password } = req.body;
-            const authId = await authService.register(name, email, password);
+            const hashedPassword = await hashProvide.generateHash(password);
+            console.log(hashedPassword);
+            
+            const authId = await authService.register(name, email, hashedPassword);
             res.status(200).json({
                 success: true,
                 message: "Success",
@@ -32,6 +36,9 @@ class AuthController {
         try{
             const userId = req.user;
             const user = await authService.getMe(userId);
+            if(user.password){
+                delete user.password;
+            }
             res.status(200).json({
                 success: true,
                 data: user

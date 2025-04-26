@@ -9,6 +9,7 @@ import router from "./routes/app.route.js"
 import errorHandler from "./middleware/errorHandle.middleware.js"
 import templateEngineConfig from "./config/templateEngine.config.js"
 import {connectDB} from './config/db.config.js'
+import hashProvide  from "./providers/hash.provide.js";
 const startApp = () =>{
     const app = express()
     const port = 3000
@@ -24,15 +25,11 @@ const startApp = () =>{
         console.log(`Example app listening on port `);
     })
 }
-// const runApp = async() =>{
-//     try{
-//         await connectDB();
-//         console.log('Connected to MongoDB');
-//     }catch(err){
-//         console.log("Error connecting to MongoDB: ", err);
-//         process.exit(1);
-//     }
-// }
+const run = async() => {
+    const hashed = await hashProvide.generateHash('123456');
+    console.log(hashed);
+  };
+  await run();
 
 const runApp = async () => {
     try{

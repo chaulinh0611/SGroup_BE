@@ -1,5 +1,6 @@
 import authModel from "../models/auth.model.js";
 import AuthProvider from "../providers/auth.provide.js";
+import hashProvide from "../providers/hash.provide.js";
 
 class AuthService {
     async register(name, email, password) {
@@ -10,6 +11,10 @@ class AuthService {
             }
 
             const user = await authModel.createUser({ name, email, password });
+            console.log(
+                password
+            );
+            
             return user.insertedId;
         } catch (err) {
             throw err;
@@ -18,9 +23,15 @@ class AuthService {
 
     async login(email, password) {
         try {
-            const user = await authModel.getUserByEmailAndPassword(email, password);
+            const user = await authModel.getUserByEmail(email);
             if (!user) {
                 throw new Error("Wrong email or password");
+            }
+            const isMatch = await hashProvide.compareHash(password, user.password);
+            if (!isMatch) {
+                console.log("err");
+                throw new Error("Wrong email or password");
+
             }
 
             const token = await AuthProvider.encodeToken(user);

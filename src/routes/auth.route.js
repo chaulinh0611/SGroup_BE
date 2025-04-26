@@ -11,6 +11,6 @@ route.post(
     ValidateMiddleware.validateEmail,
     authController.register
 );
-route.get("/login", ValidateMiddleware.validateEmail, authController.login)
+route.post("/login", ValidateMiddleware.validateEmail, authController.login)
 route.get("/getMe", verifyMiddleware.checkAuth, authController.getMe)
 export default route;

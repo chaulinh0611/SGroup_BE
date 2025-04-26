@@ -13,6 +13,7 @@ const getUserByEmailAndPassword = async (email, password) => {
     return await getDB().collection("users").findOne({ email, password });
 };
 
+
 const getUserById = async(id) => {
     return await getDB().collection("users").findOne({ _id: new ObjectId(id) });
 }
