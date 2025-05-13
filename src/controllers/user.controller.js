@@ -1,27 +1,29 @@
 import UserService from "../services/user.service.js"
 
-class userController {
+class UserController {
     async createUser(req, res, next) {
         try {
-            const {name} = req.body
-            const userId = await UserService.createUser(name)
+            const { name, email, password } = req.body;
+            const userId = await UserService.createUser(name, email, password);
             res.status(200).json({
                 success: true,
                 data: userId,
-            })
+            });
         } catch (err) {
-            next(err)
+            next(err);
         }
-    }
+    }    
 
     async getAllUsers(req, res, next) {
         try {
             const users = await UserService.getAllUsers()
+            console.log("Users fetched:", users);
             res.status(200).json({
                 success: true,
                 data: users,
             })
         } catch (err) {
+
             next(err)
         }
     }
@@ -85,4 +87,4 @@ class userController {
     
 }
 
-export default new userController()
+export default new UserController()

@@ -10,14 +10,18 @@
 // export default router;
 
 const errorHandler = (err, req, res, next) => {
+
     if (!err.statusCode) {
         err.statusCode = 500
     }
+
     const resError = {
         statusCode: err.statusCode,
         message: err.message || "Internal Server Error",
         stack: err.stack,
-    }
-    res.status(err.statusCode)
-}
-export default errorHandler
+    };
+
+    res.status(err.statusCode).json(resError); // 👈 THÊM DÒNG NÀY
+};
+
+export default errorHandler;
