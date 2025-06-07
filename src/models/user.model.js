@@ -1,33 +1,18 @@
-import { getDB } from "../config/db.config.js";
-import { ObjectId } from "mongodb";
+import mongoose from 'mongoose';
 
-class UserModel {
-    async insertOne(data) {
-        return await getDB().collection("users").insertOne(data);
-    }
+const userSchema = new mongoose.Schema({
+  username: { type: String, unique: true, required: true },
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  role: {
+    type: String,
+    enum: ['admin', 'user'],
+    default: 'user'
+  }
+}, {
+  timestamps: true,
+  collection: 'user' 
+});
 
-    async findAll() {
-        return await getDB().collection("users").find().toArray();
-    }
-
-    async findById(userId) {
-        return await getDB().collection("users").findOne({ _id: new ObjectId(userId) });
-    }
-
-    async updateById(userId, data) {
-        return await getDB().collection("users").updateOne(
-            { _id: new ObjectId(userId) },
-            { $set: data }
-        );
-    }
-
-    async deleteById(userId) {
-        return await getDB().collection("users").deleteOne({ _id: new ObjectId(userId) });
-    }
-
-    async findByEmail(email) {
-        return await getDB().collection("users").findOne({ email });
-    }
-}
-
-export default new UserModel();
+const User = mongoose.model('User', userSchema);
+export default User;
