@@ -19,6 +19,7 @@ RUN npm install g npm
 RUN npm install
 
 COPY . .
+
 COPY .env .env
 
 # RUN pnpm run build
