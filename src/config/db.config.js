@@ -7,7 +7,7 @@ const client = new MongoClient(process.env.MONGODB_URL)
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/backend_basic');
+    await mongoose.connect('mongodb://mongo:27017/backend_basic');
 
   } catch (err) {
     console.error('Lỗi kết nối MongoDB:', err.message);

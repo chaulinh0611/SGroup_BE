@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+
+  app:
+    build: .
+    container_name: sgroup_app
+    environment:
+    - MONGODB_URL=mongodb://mongo:27017/backend_basic
+    - MONGODB_NAME=backend_basic
+    - JWT_SECRET=chaulinh
+    - JWT_EXPIRES_IN=1d
+    - SMTP_HOST=smtp.gmail.com
+    - SMTP_PORT=587
+    - SMTP_USER=chaulinh0611z@gmail.com
+    - SMTP_PASS=vqgn fboa ulot cjlx
+    depends_on:
+      - mongo
+    ports:
+      - "3000:3000"
+    command: node src/index.js
